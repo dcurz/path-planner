@@ -322,7 +322,7 @@ int main() {
           	tk::spline s; 
 
           	// set x-y points as spline anchors
-          	s.set_poitns(ptsx, ptsy);
+          	s.set_points(ptsx, ptsy);
 
           	// create the vectors which will pass the waypoints
           	vector<double> next_x_vals;
