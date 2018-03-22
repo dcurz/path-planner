@@ -287,11 +287,11 @@ int main() {
 
           	if(too_close)
           	{
-          		rev_vel -= .224;
+          		ref_vel -= .224;
           	}
           	else if(ref_vel < 49.5)
           	{
-          		rev_vel += .224;
+          		ref_vel += .224;
           	}
 
 
