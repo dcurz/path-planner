@@ -205,13 +205,18 @@ int main() {
 
   double ref_vel = 49.5; //mph
 
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy, &lane, &ref_vel](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     //auto sdata = string(data).substr(0, length);
     //cout << sdata << endl;
+	  
+
+
+
+
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
       auto s = hasData(data);
@@ -242,7 +247,7 @@ int main() {
           	// Sensor Fusion Data, a list of all other cars on the same side of the road.
           	auto sensor_fusion = j[1]["sensor_fusion"];
 
-          	int prev_size = previous_path_x.size()
+          	int prev_size = previous_path_x.size();
 
           	vector<double> ptsx; 
           	vector<double> ptsy; 
@@ -265,7 +270,7 @@ int main() {
           		ptsx.push_back(car_x);
 
           		ptsy.push_back(prev_car_y);
-          		ptsy.pushback(car_y);
+          		ptsy.push_back(car_y);
           	}
 
           	else
@@ -303,7 +308,7 @@ int main() {
           	ptsy.push_back(next_wp2[1]);
 
           	//shift reference to car's coordinate frame 
-          	for (int i = 0: i < ptsx.size(); i++)
+          	for (int i = 0; i < ptsx.size(); i++)
           	{
           		double shift_x = ptsx[i]-ref_x;
           		double shift_y = ptsy[i]-ref_y;
@@ -385,7 +390,7 @@ int main() {
 
 			*/
           	// END
-          	
+
           	msgJson["next_x"] = next_x_vals;
           	msgJson["next_y"] = next_y_vals;
 
