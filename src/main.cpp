@@ -271,7 +271,7 @@ int main() {
           			double vx = sensor_fusion[i][3];
           			double vy = sensor_fusion[i][4];
           			double check_speed = sqrt(vx*vx+vy*vy);
-          			double check_car_s = sensor_fusion[i][5]
+          			double check_car_s = sensor_fusion[i][5];
 
           			// approximate future state of this car relative to the pre-defined 
           			// future state of our car (car_s)
@@ -280,7 +280,7 @@ int main() {
           			// essentially - will this car be within 30m in front of me? 
           			if((check_car_s > car_s) && ((check_car_s - car_s) < 30))
           			{
-          				rev_vel = 29.5;
+          				ref_vel = 29.5;
           			}
           		}
           	}
@@ -288,6 +288,7 @@ int main() {
 
 
           	//****************Car Avoidance Module - End********************
+          	vector<double> ptsx;
           	vector<double> ptsy; 
 
           	double ref_x = car_x; 
