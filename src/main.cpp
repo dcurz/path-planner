@@ -249,7 +249,45 @@ int main() {
 
           	int prev_size = previous_path_x.size();
 
-          	vector<double> ptsx; 
+          	//****************Car Avoidance Module - Start******************
+
+          	// if there are any points left from the previous commanded list of waypoints, 
+          	// then set the "own car collision comparison s coordinate" to the last point
+          	if(prev_size > 0)
+          	{
+          		car_s = end_path_s;
+          	}
+
+          	// flag for whether altered behavior is called for
+          	bool too_close = false;
+
+          	// cycle through all other cars to determine if they pose a risk
+          	for(int i = 0; i < sensor_fusion.size(); i++)
+          	{
+          		// is this car in my lane? (d is frenet "cte" coord of other vehicle)
+          		float d = sensor_fusion[i][6];
+          		if(d < (2+4*lane+2) && d > (2+4*lane-2) )
+          		{
+          			double vx = sensor_fusion[i][3];
+          			double vy = sensor_fusion[i][4];
+          			double check_speed = sqrt(vx*vx+vy*vy);
+          			double check_car_s = sensor_fusion[i][5]
+
+          			// approximate future state of this car relative to the pre-defined 
+          			// future state of our car (car_s)
+          			check_car_s += ((double)prev_size*.02*check_speed);
+
+          			// essentially - will this car be within 30m in front of me? 
+          			if((check_car_s > car_s) && ((check_car_s - car_s) < 30))
+          			{
+          				rev_vel = 29.5;
+          			}
+          		}
+          	}
+
+
+
+          	//****************Car Avoidance Module - End********************
           	vector<double> ptsy; 
 
           	double ref_x = car_x; 
