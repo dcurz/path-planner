@@ -260,6 +260,7 @@ int main() {
 
           	// flag for whether altered behavior is called for
           	bool too_close = false;
+          	double speed_match = 0.0; 
 
           	// cycle through all other cars to determine if they pose a risk
           	for(int i = 0; i < sensor_fusion.size(); i++)
@@ -281,15 +282,20 @@ int main() {
           			if((check_car_s > car_s) && ((check_car_s - car_s) < 30))
           			{
           				too_close = true;
+          				speed_match = check_speed;
           			}
           		}
           	}
 
           	if(too_close)
           	{
-          		if(ref_vel + .5 > check_speed)
+          		if(ref_vel + .5 > speed_match)
           		{
-          			ref_vel -= .224;	
+          			ref_vel -= .224;
+
+          			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
+          			//better to rewrite whole path if change is needed. 
+          			//prev_size = 0; 	
           		}
           	}
           	else if(ref_vel < 49.5)
