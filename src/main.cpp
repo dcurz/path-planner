@@ -324,8 +324,8 @@ int main() {
           		// use 2 points to make path tangeant to car
 
           		// in both of these lines there's an unspoken "step back 1m" (it's from the not-written 1m * cos(car_yaw) i believe)
-          		double prev_car_x = car_x - cos(car_yaw);
-          		double prev_car_y = car_y - sin(car_yaw);
+          		double prev_car_x = car_x - cos(ref_yaw);
+          		double prev_car_y = car_y - sin(ref_yaw);
 
           		ptsx.push_back(prev_car_x);
           		ptsx.push_back(car_x);
