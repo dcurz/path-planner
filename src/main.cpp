@@ -306,7 +306,7 @@ int main() {
       						if(check_car_s > baseline_s)
       						{
           						//left
-          						if((d < 4) && (d > 0))
+          						if((check_car_d < 4) && (check_car_d > 0))
           						{
           							double new_safe_dist_left = check_car_s - baseline_s; 
           							if(new_safe_dist_left < safe_dist_left)
@@ -316,7 +316,7 @@ int main() {
 
           						}
           						//center
-          						else{if((d > 4) && (d < 8))
+          						else{if((check_car_d > 4) && (check_car_d < 8))
           						{
           							double new_safe_dist_center = check_car_s - baseline_s; 
           							if(new_safe_dist_center < safe_dist_center)
@@ -325,7 +325,7 @@ int main() {
           							}
           						}
           						//right
-          						else{if(d>8)
+          						else{if(check_car_d > 8)
           						{
           							double new_safe_dist_right = check_car_s - baseline_s; 
           							if(new_safe_dist_right < safe_dist_right)
