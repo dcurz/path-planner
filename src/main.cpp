@@ -291,10 +291,13 @@ int main() {
           	{
           		if(ref_vel + .5 > speed_match)
           		{
-          			ref_vel -= .224;
+          			//ref_vel -= .224;
+          			// .224 was giving occasional accel errors . . . 
+
+          			ref_vel -= .185;
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
-          			//better to rewrite whole path if change is needed. 
+          			//better to keep 5 points for smoothness - but mostly re-write path for better following behavior
           			prev_size = 5; 	
           		}
           	}
