@@ -255,6 +255,7 @@ int main() {
           	// then set the "own car collision comparison s coordinate" to the last point
           	if(prev_size > 0)
           	{
+          		double curr_car_s = car_s;
           		car_s = end_path_s;
           	}
 
@@ -283,26 +284,127 @@ int main() {
           			{
           				too_close = true;
           				speed_match = check_speed;
+
+          				//*****************************************Lane Change Module - Start***************************8
+          				double safe_dist_left = 1000.0; 
+          				double safe_dist_center = 1000.0;
+          				double safe_dist_right = 1000.0; 
+          				double safety_threshold = 70.0; 
+
+          				//Evaluate Lane Change Left (if lane = 1 or 2)
+          					//Establish baseline s coord based on current pose - constant
+          					//How far is the first car ahead of that baseline?  
+          				double baseline_s = curr_car_s - 20.0; 
+
+          				//loop through every car - if left or right take data
+
+      					for(int i = 0; i < sensor_fusion.size(); i++)
+      					{
+      						float check_car_d = sensor_fusion[i][6];
+      						float check_car_s = sensor_fusion[i][5];
+      						
+      						if(check_car_s > baseline_s)
+      						{
+          						//left
+          						if((d < 4) && (d > 0))
+          						{
+          							double new_safe_dist_left = check_car_s - baseline_s; 
+          							if(new_safe_dist_left < safe_dist_left)
+          							{
+          								safe_dist_left = new_safe_dist_left;
+          							}
+
+          						}
+          						//center
+          						else{if((d > 4) && (d < 8))
+          						{
+          							double new_safe_dist_center = check_car_s - baseline_s; 
+          							if(new_safe_dist_center < safe_dist_center)
+          							{
+          								safe_dist_center = new_safe_dist_center;
+          							}
+          						}
+          						//right
+          						else{if(d>8)
+          						{
+          							double new_safe_dist_right = check_car_s - baseline_s; 
+          							if(new_safe_dist_right < safe_dist_right)
+          							{
+          								safe_dist_right = new_safe_dist_right;
+          							}
+          						}}}
+          					}
+
+      					}
+      					
+      					//if in an outside lane and the center is free . . . move to center
+      					if(((lane == 0)||(lane == 2)) && safe_dist_center > safety_threshold)
+      					{
+      						lane = 1; 
+      					}
+      					//if in center, move to whichever outside lane has more free space (cuz dis is 'merica)
+      					else{if((lane == 1) && ((safe_dist_left > safety_threshold)||(safe_dist_right > safety_threshold)))
+      					{
+      						if(safe_dist_right > safe_dist_left)
+      						{
+      							lane = 2; 
+      						}
+      						else
+      						{
+      							lane = 0; 
+      						}
+      					}
+      					//otherwise (ie - no available lane changes) you need to speed match
+      					else
+      					{
+      						if(ref_vel > speed_match)
+          					{
+			          			//ref_vel -= .224;
+			          			// .224 was giving occasional accel errors . . . 
+
+			          			ref_vel -= .10;
+			          			ref_vel = max(ref_vel, speed_match);
+
+			          			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
+			          			//better to keep 3 points for smoothness - but mostly re-write path for better following behavior
+			          			prev_size = 3; 	
+          					}
+      					}}
           			}
+          				//Evaluate Lane Change Right (if lane = 0 or 1)
+          					//Same procedure as left
+
+          				//If safedistleft >= threshold && >= safedistright, change left
+          				//If safedistright >= threshold && > safedistleft, change right 
+          				//If both are shy of threshold, then do speedmatching below 
+
+
+
+          				//Execute 
+
           		}
           	}
+          	
+          	//**********************Lane Change Module - End**********************************************
 
-          	if(too_close)
-          	{
-          		if(ref_vel > speed_match)
-          		{
-          			//ref_vel -= .224;
-          			// .224 was giving occasional accel errors . . . 
+          	// if(too_close)
+          	// {
+          	// 	if(ref_vel > speed_match)
+          	// 	{
+          	// 		//ref_vel -= .224;
+          	// 		// .224 was giving occasional accel errors . . . 
 
-          			ref_vel -= .10;
-          			ref_vel = max(ref_vel, speed_match);
+          	// 		ref_vel -= .10;
+          	// 		ref_vel = max(ref_vel, speed_match);
 
-          			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
-          			//better to keep 3 points for smoothness - but mostly re-write path for better following behavior
-          			prev_size = 3; 	
-          		}
-          	}
-          	else if(ref_vel < 49.5)
+          	// 		//always only adding on to the end causes response delay and "start-stop-start" behavior. 
+          	// 		//better to keep 3 points for smoothness - but mostly re-write path for better following behavior
+          	// 		prev_size = 3; 	
+          	// 	}
+          	// }
+          	
+          	//Speed Back Up if Free
+          	if((!too_close) &&(ref_vel < 49.5))
           	{
           		//ref_vel += .224;
           		ref_vel += .10;
