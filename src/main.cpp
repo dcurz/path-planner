@@ -390,7 +390,7 @@ int main() {
           	vector<double> next_y_vals; 
 
           	// mostly will be using points from last time
-          	for(int i = 0; i < previous_path_x.size(); i++)
+          	for(int i = 0; i < prev_size; i++)
           	{
           		next_x_vals.push_back(previous_path_x[i]);
           		next_y_vals.push_back(previous_path_y[i]);
@@ -405,7 +405,7 @@ int main() {
 
           	// use spline and calculated values to fill and publish path planner
 
-          	for(int i = 1; i <= 50 - previous_path_x.size(); i++)
+          	for(int i = 1; i <= 50 - prev_size; i++)
           	{
           		double N = (target_dist/(.02*ref_vel/2.24));
           		double x_point = x_add_on + (target_x)/N;
