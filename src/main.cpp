@@ -289,12 +289,13 @@ int main() {
 
           	if(too_close)
           	{
-          		if(ref_vel + .5 > speed_match)
+          		if(ref_vel > speed_match)
           		{
           			//ref_vel -= .224;
           			// .224 was giving occasional accel errors . . . 
 
-          			ref_vel -= .185;
+          			ref_vel -= .15;
+          			ref_vel = max(rev_vel, speed_match);
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
           			//better to keep 3 points for smoothness - but mostly re-write path for better following behavior
@@ -304,7 +305,7 @@ int main() {
           	else if(ref_vel < 49.5)
           	{
           		//ref_vel += .224;
-          		ref_vel += .185;
+          		ref_vel += .15;
           	}
 
 
@@ -421,9 +422,12 @@ int main() {
           		double y_ref = y_point; 
 
           		//rotate back into global coords for publishing
+
           		x_point = (x_ref * cos(ref_yaw) - y_ref*sin(ref_yaw));
           		y_point = (x_ref * sin(ref_yaw) + y_ref*cos(ref_yaw));
 
+          		//remember that x_ref is actually the x coord of the last kept point from prev path
+          		//aka the "car's current position" for calc purposes (but it's really a future pose)
           		x_point += ref_x;
           		y_point += ref_y; 
 
