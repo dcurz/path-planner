@@ -295,7 +295,7 @@ int main() {
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
           			//better to rewrite whole path if change is needed. 
-          			//prev_size = 0; 	
+          			prev_size = 0; 	
           		}
           	}
           	else if(ref_vel < 49.5)
