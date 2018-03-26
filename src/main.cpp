@@ -295,7 +295,7 @@ int main() {
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
           			//better to rewrite whole path if change is needed. 
-          			prev_size = 0; 	
+          			prev_size = 5; 	
           		}
           	}
           	else if(ref_vel < 49.5)
@@ -319,7 +319,7 @@ int main() {
 
           	// if length of remaining previous path is less than two waypoints - just walk balk from the car's 
           	// current position to help smooth the spline - not sure when this would ever come into play though? 
-          	if(prev_size < 2)
+          	if(prev_size < 6)
           	{
           		// use 2 points to make path tangeant to car
 
