@@ -294,7 +294,7 @@ int main() {
           			//ref_vel -= .224;
           			// .224 was giving occasional accel errors . . . 
 
-          			ref_vel -= .15;
+          			ref_vel -= .10;
           			ref_vel = max(ref_vel, speed_match);
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
@@ -305,7 +305,7 @@ int main() {
           	else if(ref_vel < 49.5)
           	{
           		//ref_vel += .224;
-          		ref_vel += .15;
+          		ref_vel += .10;
           	}
 
 
