@@ -289,12 +289,12 @@ int main() {
           				double safe_dist_left = 1000.0; 
           				double safe_dist_center = 1000.0;
           				double safe_dist_right = 1000.0; 
-          				double safety_threshold = 100.0; 
+          				double safety_threshold = 45.0; 
 
           				//Evaluate Lane Change Left (if lane = 1 or 2)
           					//Establish baseline s coord based on current pose - constant
           					//How far is the first car ahead of that baseline?  
-          				double baseline_s = curr_car_s - 20.0; 
+          				double baseline_s = curr_car_s - 10.0; 
 
           				//loop through every car - if left or right take data
 
