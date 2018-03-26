@@ -297,13 +297,14 @@ int main() {
           			ref_vel -= .185;
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
-          			//better to keep 5 points for smoothness - but mostly re-write path for better following behavior
-          			prev_size = 5; 	
+          			//better to keep 8 points for smoothness - but mostly re-write path for better following behavior
+          			prev_size = 8; 	
           		}
           	}
           	else if(ref_vel < 49.5)
           	{
-          		ref_vel += .224;
+          		//ref_vel += .224;
+          		ref_vel += .185;
           	}
 
 
