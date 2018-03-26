@@ -319,7 +319,7 @@ int main() {
 
           	// if length of remaining previous path is less than two waypoints - just walk balk from the car's 
           	// current position to help smooth the spline - not sure when this would ever come into play though? 
-          	if(prev_size < 6)
+          	if(prev_size < 2)
           	{
           		// use 2 points to make path tangeant to car
 
