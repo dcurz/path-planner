@@ -289,7 +289,7 @@ int main() {
           				double safe_dist_left = 1000.0; 
           				double safe_dist_center = 1000.0;
           				double safe_dist_right = 1000.0; 
-          				double safety_threshold = 70.0; 
+          				double safety_threshold = 100.0; 
 
           				//Evaluate Lane Change Left (if lane = 1 or 2)
           					//Establish baseline s coord based on current pose - constant
@@ -338,9 +338,10 @@ int main() {
       					}
       					
       					//if in an outside lane and the center is free . . . move to center
-      					if(((lane == 0)||(lane == 2)) && safe_dist_center > safety_threshold)
+      					if(((lane == 0)||(lane == 2)) && (safe_dist_center > safety_threshold))
       					{
       						lane = 1; 
+      						cout << "Moving to center lane. Safe Distance is: " << safe_dist_center << endl;
       					}
       					//if in center, move to whichever outside lane has more free space (cuz dis is 'merica)
       					else{if((lane == 1) && ((safe_dist_left > safety_threshold)||(safe_dist_right > safety_threshold)))
@@ -348,10 +349,12 @@ int main() {
       						if(safe_dist_right > safe_dist_left)
       						{
       							lane = 2; 
+      							cout << "Moving to right lane. Safe Distance is: " << safe_dist_right << endl;
       						}
       						else
       						{
       							lane = 0; 
+      							cout << "Moving to left lane. Safe Distance is: " << safe_dist_left << endl;
       						}
       					}
       					//otherwise (ie - no available lane changes) you need to speed match
