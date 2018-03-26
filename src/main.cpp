@@ -295,7 +295,7 @@ int main() {
           			// .224 was giving occasional accel errors . . . 
 
           			ref_vel -= .15;
-          			ref_vel = max(rev_vel, speed_match);
+          			ref_vel = max(ref_vel, speed_match);
 
           			//always only adding on to the end causes response delay and "start-stop-start" behavior. 
           			//better to keep 3 points for smoothness - but mostly re-write path for better following behavior
