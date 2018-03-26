@@ -248,14 +248,14 @@ int main() {
           	auto sensor_fusion = j[1]["sensor_fusion"];
 
           	int prev_size = previous_path_x.size();
+          	double curr_car_s = car_s;
 
           	//****************Car Avoidance Module - Start******************
 
           	// if there are any points left from the previous commanded list of waypoints, 
           	// then set the "own car collision comparison s coordinate" to the last point
           	if(prev_size > 0)
-          	{
-          		double curr_car_s = car_s;
+          	{	
           		car_s = end_path_s;
           	}
 
