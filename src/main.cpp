@@ -287,7 +287,10 @@ int main() {
 
           	if(too_close)
           	{
-          		ref_vel -= .224;
+          		if(ref_vel + .5 > check_speed)
+          		{
+          			ref_vel -= .224;	
+          		}
           	}
           	else if(ref_vel < 49.5)
           	{
@@ -297,6 +300,10 @@ int main() {
 
 
           	//****************Car Avoidance Module - End********************
+
+
+          	//****************General Path Planning - Start******************
+
           	vector<double> ptsx;
           	vector<double> ptsy; 
 
@@ -414,6 +421,8 @@ int main() {
           		next_x_vals.push_back(x_point);
           		next_y_vals.push_back(y_point);
           	}
+
+          	//**************************General Path Planning - End**************************
 
           	json msgJson;
 
