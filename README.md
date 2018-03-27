@@ -15,15 +15,15 @@ I began with the basic smooth trajectory generation implementation described in 
 
   * Copy any remaining waypoints from the previous path (usually about 47/50 are generated this way)
 
-  * Use a linear approximation to calculate the appropriate distance to separate each waypoint to achieve the target speed (if each is achieved in .02 seconds)
+  * Use a linear approximation to calculate the appropriate distance to separate each waypoint to achieve the target speed (based on each being reached in .02 seconds) 
 
   * Finish out the waypoint list using the calculated distance from the linear approximation and the spline
 
 ### 2. Slow Down for Traffic
 Initially I recreated the slow-down functionality as described in the Q&A - but did not like the way that the velocity would fluctuate wildly. Because that algorithm only implemented changes starting at the end of the current path there was significant lag between when the need to slow was sensed and when the car actually slowed. I corrected for this by ditching all but 3 waypoints from the previous path and adding 47 new ones in accordance with the newly increased/decreased speed. I did find this to make the acceleration more sensitive to the stepwise speed increment, and had to lower it from the value in the video (.224) to .100.
 
-## 3. Lane Changing
-When the car finds itself behind a car moving more slowly than its target (49.5 mph), it triggers a sweep of all 3 lanes to determine the "safe distance" available in each lane. I define this as the distance in the positive s frenet coordinate direction from a space 10m behind the car's current position to the next nearest vehicle. I set a 45m safe distance threshold which has seemed to work well. If the car is in the center lane and both the right and left lanes are clear, it will merge into the lane with the larger safe distance. 
+### 3. Lane Changing
+When the car finds itself behind a car moving more slowly than its target (49.5 mph), it triggers a sweep of all 3 lanes to determine the "safe distance" available in each lane. I define this as the distance in the positive s frenet coordinate direction from a space 10m behind the car's current position to the next nearest vehicle. If the adjacent lane is clear - a lane change is executed. I set a 45m safe distance threshold which seems to work well. If the car is in the center lane and both the right and left lanes are clear, it will merge into the lane with the larger safe distance. 
 
 
 
